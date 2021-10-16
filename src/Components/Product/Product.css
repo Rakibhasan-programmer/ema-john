@@ -26,5 +26,6 @@
 }
 
 .add-btn:hover {
-    box-shadow: 3px 3px 10px 3px gray;
+    transform: scale(1.1);
+    transition: all 0.8s;
 }
