@@ -7,11 +7,15 @@ import './Shop.css'
 const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    const [displayProducts, setDisplayProducts] = useState([]);
 
     useEffect(() => {
         fetch('./products.JSON')
             .then(res => res.json())
-            .then(data => setProducts(data))
+            .then(data => {
+                setProducts(data);
+                setDisplayProducts(data);
+            })
     }, [])
 
     useEffect(() => {
@@ -20,7 +24,7 @@ const Shop = () => {
             const storeCart = [];
             for (const key in savedCart) {
                 const addedProduct = products.find(product => product.key === key);
-                if(addedProduct){
+                if (addedProduct) {
                     const quantity = savedCart[key];
                     addedProduct.quantity = quantity;
                     storeCart.push(addedProduct);
@@ -35,19 +39,31 @@ const Shop = () => {
         setCart(newCart);
         addToDb(product.key);
     }
+    // search handler
+    const search = (event) => {
+        const searchedText = event.target.value;
+        const matchedProduct = products.filter(product => product.name.toLowerCase().includes(searchedText.toLowerCase()));
+        
+        setDisplayProducts(matchedProduct);
+    }
     return (
-        <div className='shop-container'>
-            <div className="product-container">
-                <h3>Products: {products.length}</h3>
-                {
-                    products.map(product => <Product key={product.key} item={product}
-                        addToCart={addToCart}></Product>)
-                }
+        <>
+            <div className="search-container">
+                <input onChange={search} placeholder="Search product" type="text" />
             </div>
-            <div className="cart-container">
-                <Cart cart={cart}></Cart>
+            <div className='shop-container'>
+                <div className="product-container">
+                    <h3>Products: {products.length}</h3>
+                    {
+                        displayProducts.map(product => <Product key={product.key} item={product}
+                            addToCart={addToCart}></Product>)
+                    }
+                </div>
+                <div className="cart-container">
+                    <Cart cart={cart}></Cart>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

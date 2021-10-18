@@ -26,7 +26,7 @@ const Cart = (props) => {
 
 
     return (
-        <div>
+        <div style={{paddingLeft:'110px'}}>
             <h3>Order Summary</h3>
             <p>Items ordered: {totalQuantity}</p>
             <p>
