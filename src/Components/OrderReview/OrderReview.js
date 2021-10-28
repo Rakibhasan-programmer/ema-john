@@ -4,6 +4,7 @@ import useCart from '../../hook/useCart';
 import Cart from '../Cart/Cart';
 import ItemReview from '../ItemReview/ItemReview';
 import { deleteFromDb } from '../../utilities/fakedb';
+import { Link } from 'react-router-dom';
 
 
 const OrderReview = () => {
@@ -29,7 +30,11 @@ const OrderReview = () => {
                 }
             </div>
             <div className="cart-container">
-                <Cart cart={cart}></Cart>
+                <Cart cart={cart}>
+                    <Link to='/inventory'>
+                        <button className='add-btn'>Place Order</button>
+                    </Link>
+                </Cart>
             </div>
         </div>
     );
